@@ -10,7 +10,7 @@ const ProductsPage = () => {
     const { push } =useRouter()
 
     const getData = async() => {
-        const request = await axios.get("http://localhost:3000/api/products/");
+        const request = await axios.get("https://internship-lemon.vercel.app/api/products/");
         const response = await request.data;
         console.log(response.products);
         setProduct(response.products);
@@ -22,7 +22,7 @@ const ProductsPage = () => {
 
     const handleDelete = async (id) => {
         try{
-            await axios.delete(`http://localhost:3000/api/products/${id}`);
+            await axios.delete(`https://internship-lemon.vercel.app/api/products/${id}`);
             await getData();  
         }catch(error){
             console.error("Error Deleting product:", error);
