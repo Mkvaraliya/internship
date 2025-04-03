@@ -10,7 +10,7 @@ const ProductsPage = () => {
     const { push } =useRouter()
 
     const getData = async() => {
-        const request = await axios.get("https://internship-lemon.vercel.app/api/products/");
+        const request = await axios.get("https://internship-lemon.vercel.app/api/products");
         const response = await request.data;
         console.log(response.products);
         setProduct(response.products);
