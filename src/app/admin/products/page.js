@@ -1,21 +1,37 @@
 "use client";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from 'next/navigation'
+
 
 
 const ProductsPage = () => {
     const [product, setProduct] = useState([]);
+    const { push } =useRouter()
+
+    const getData = async() => {
+        const request = await axios.get("http://localhost:3000/api/products/");
+        const response = await request.data;
+        console.log(response.products);
+        setProduct(response.products);
+    }
 
     useEffect(()=>{
-        const getData = async() => {
-            const request = await axios.get("http://localhost:3000/api/products/");
-            const response = await request.data;
-            console.log(response.products);
-            setProduct(response.products);
-        }
         getData();
-    },[])
+    },[]);
+
+    const handleDelete = async (id) => {
+        try{
+            await axios.delete(`http://localhost:3000/api/products/${id}`);
+            await getData();  
+        }catch(error){
+            console.error("Error Deleting product:", error);
+        }
+    }
+
+    const handleEdit = (id) => {
+        push(`/admin/products/editProduct/${id}`);
+      };
 
     return (
         <div className=' w-[90%]  mt-10 m-auto rounded shadow  '>
@@ -61,10 +77,10 @@ const ProductsPage = () => {
                             <td className="p-4">{products.stock}</td>
                             <td className="p-4">{products.description}</td>
                             <td className="p-4 flex space-x-2">
-                                <button className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+                                <button onClick={() => { handleEdit(products._id)}} className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
                                     Edit
                                 </button>
-                                <button className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
+                                <button onClick={() => { handleDelete(products._id)}} className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
                                     Delete
                                 </button>
                             </td>

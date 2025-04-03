@@ -1,22 +1,43 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 
-const CreateProduct = () => {
+const EditProduct = () => {
+  const { id } = useParams(); // Get product ID from URL
+  const { push } = useRouter();
+
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
   const [stock, setStock] = useState("");
   const [description, setDescription] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const {push} = useRouter();
 
+  // Fetch existing product data
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const res = await axios.get(`/api/products/${id}`);
+        const product = res.data.product;
+
+        setTitle(product.title);
+        setPrice(product.price);
+        setStock(product.stock);
+        setDescription(product.description);
+      } catch (err) {
+        setError("Error fetching product details.");
+      }
+    };
+
+    if (id) fetchProduct();
+  }, [id]);
+
+  // Handle update
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate form fields
     if (!title || !price || !stock || !description) {
       setError("Please fill all the fields.");
       return;
@@ -26,40 +47,31 @@ const CreateProduct = () => {
       setError("");
       setSuccess("");
 
-      // Send POST request to your API endpoint
-      const res = await axios.post("/api/products", {
+      const res = await axios.put(`/api/products/${id}`, {
         title,
         price,
         stock,
         description,
       });
 
-
       if (res.data.success) {
-        setSuccess("Product created successfully!");
-        // Clear form fields
-        setTitle("");
-        setPrice("");
-        setStock("");
-        setDescription("");
+        setSuccess("Product updated successfully!");
+        push("/admin/products"); // Redirect after update
       } else {
-        setError(res.data.message || "Failed to create product.");
+        setError(res.data.message || "Failed to update product.");
       }
-
-      push("/admin/products");
     } catch (err) {
-      console.error(err);
-      setError("An error occurred while creating the product.");
+      setError("An error occurred while updating the product.");
     }
   };
 
   return (
     <div className="max-w-3xl mx-auto mt-10 bg-white shadow-md rounded-lg p-6">
-      <h2 className="text-2xl font-bold text-gray-800 mb-4">Create Product</h2>
-      
+      <h2 className="text-2xl font-bold text-gray-800 mb-4">Edit Product</h2>
+
       {error && <p className="text-red-500 mb-4">{error}</p>}
       {success && <p className="text-green-500 mb-4">{success}</p>}
-      
+
       <form className="space-y-4" onSubmit={handleSubmit}>
         {/* Product Name */}
         <div>
@@ -113,11 +125,11 @@ const CreateProduct = () => {
           type="submit"
           className="w-full bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition duration-300"
         >
-          Create Product
+          Update Product
         </button>
       </form>
     </div>
   );
 };
 
-export default CreateProduct;
+export default EditProduct;

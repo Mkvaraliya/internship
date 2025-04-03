@@ -2,10 +2,40 @@ import DbConnection from '@/app/lib/db';
 import Product from '@/app/models/productModel';
 import { NextResponse } from 'next/server';
 
+export async function GET(request, { params }) {
+    try {
+        await DbConnection();
+        const { id } = params;
+        const product = await Product.findById(id);
+
+        if (!product) {
+            return NextResponse.json({
+                success: false,
+                message: "Product not found",
+                status: 404
+            });
+        }
+
+        return NextResponse.json({
+            success: true,
+            message: "Product fetched successfully",
+            status: 200,
+            product: product
+        });
+    } catch (error) {
+        console.error("Error:", error);
+        return NextResponse.json({
+            success: false,
+            message: "Internal Server Error",
+            status: 500
+        });
+    }
+}   
+
 export async function PUT(request, { params }) {
     try {
         await DbConnection();
-        const { id } = params;        
+        const { id } = params;
         const { title, description, price, stock } =  await request.json();
 
         if (!title || !description || !price || !stock) {
