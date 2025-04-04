@@ -5,8 +5,10 @@ import axios from "axios";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useAuth } from "@/context/AuthContext";
 
 const Login = () => {
+    const {setIsLoggedIn} = useAuth();
     const router = useRouter();
     const searchParams = useSearchParams();
     const [formData, setFormData] = useState({
@@ -42,8 +44,9 @@ const Login = () => {
             const res = await axios.post("/api/auth/login", formData,{withCredentials: true});
 
             if (res.data.success) {
+                setIsLoggedIn(true);
                 setSuccess("Login successfully! Redirecting... ");
-                setTimeout(() => router.push("/admin/products"), 2000);
+                router.push("/admin/products");
             } else {
                 setError(res.data.message || "Failed to Register User");
             }

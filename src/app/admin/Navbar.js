@@ -3,9 +3,10 @@ import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-const Navbar = () => {
+import { useAuth } from "@/context/AuthContext";
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+const Navbar = () => {
+  const { isLoggedIn, setIsLoggedIn, checkAuth } = useAuth();
   const router = useRouter();
   
   const logout = async() => {
@@ -17,19 +18,6 @@ const Navbar = () => {
       console.log("Logout failed:", error.response?.data?.message || error.message);
     }
   }
-  
-  const checkAuth = async () => {
-    try{
-      const res = await axios.get("/api/auth/check", {withCredentials: true});
-      setIsLoggedIn(res.data.loggedIn); // update based on response
-    } catch(error) {
-      setIsLoggedIn(false);
-    }
-  }
-
-  useEffect(() => {
-    checkAuth();
-  },[]);
 
   return (
     <nav className="bg-gray-900 text-white p-4 flex justify-between items-center">
@@ -58,7 +46,7 @@ const Navbar = () => {
 
         {
           isLoggedIn && (
-            <button onClick={logout} className="bg-red-500 px-5 py-2 rounded ">Logout</button>
+            <button onClick={logout} className="bg-red-500 px-5 py-2 rounded cursor-pointer ">Logout</button>
           )
         }
         
