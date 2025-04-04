@@ -2,6 +2,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation'
+import Link from "next/link";
 
 
 
@@ -38,9 +39,9 @@ const ProductsPage = () => {
             <div className="flex justify-between items-center p-4 bg-slate-800  text-white shadow-md rounded-t-lg"
             >
                 <h2 className="text-xl font-semibold">Product List</h2>
-                <a className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600" href="/admin/products/createProduct" >
+                <Link className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600" href="/admin/products/createProduct" >
                     + Create Product
-                </a>
+                </Link>
             </div>
             <table className="w-full border-collapse">
                 {/* Table Header */}
