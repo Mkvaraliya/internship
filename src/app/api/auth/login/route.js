@@ -60,7 +60,9 @@ export async function POST(request) {
             token,
             { 
                 httpOnly: true,
-                secure: true
+                secure: true,
+                sameSite: "lax",
+                path: "/",
             }
         )
 
