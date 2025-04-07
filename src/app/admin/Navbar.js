@@ -13,6 +13,7 @@ const Navbar = () => {
     try{
       await axios.post("/api/auth/logout", {}, {withCredentials: true});
       setIsLoggedIn(false); 
+      window.location.href = "/admin/products";
       router.push("/admin/auth/login");
     }catch(error){
       console.log("Logout failed:", error.response?.data?.message || error.message);
