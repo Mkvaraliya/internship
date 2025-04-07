@@ -48,6 +48,7 @@ const Login = () => {
                 setSuccess("Login successfully! Redirecting... ");
                 // router.push("/admin/products");
                 console.log("i am redirecting to products");
+                console.log("i am redirecting to productssssss");
                 setTimeout(() => {
 
                   router.push("/admin/products");
