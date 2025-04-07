@@ -17,7 +17,6 @@ export async function middleware(request) {
     
     if (!token || !(await verifyJWT(token))) {
         const loginUrl = new URL("/admin/auth/login", request.url);
-        loginUrl.searchParams.set("message", "You must be logged in to access this page");
         return NextResponse.redirect(loginUrl);
     }
 
