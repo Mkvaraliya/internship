@@ -49,6 +49,8 @@ const Login = () => {
                 // router.push("/admin/products");
                 console.log("i am redirecting to products");
                 console.log("i am redirecting to productssssss");
+                router.refresh(); // Refresh the router state
+
                 router.push("/admin/products");
                
             } else {
