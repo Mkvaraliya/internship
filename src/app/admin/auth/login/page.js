@@ -9,7 +9,7 @@ import { useAuth } from "@/context/AuthContext";
 
 const Login = () => {
     const {setIsLoggedIn} = useAuth();
-    const router = useRouter();
+    const {push} = useRouter();
     // const searchParams = useSearchParams();
     const [formData, setFormData] = useState({
         email: "",
@@ -46,7 +46,9 @@ const Login = () => {
             if (res.data.success) {
                 setIsLoggedIn(true);
                 setSuccess("Login successfully! Redirecting... ");
-                router.push("/admin/products");
+                // router.push("/admin/products");
+                console.log("i am redirecting to products");
+                push("/admin/products");
             } else {
                 setError(res.data.message || "Failed to Register User");
             }
