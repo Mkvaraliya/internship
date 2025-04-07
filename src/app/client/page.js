@@ -16,9 +16,9 @@ const page = () => {
   },[]);
 
   return (
-    <div className="w-80% bg-slate-400 ">
+    <div className="w-full bg-slate-400">
       {/* Our Cart Section */}
-      <div  className="w-full flex flex-wrap gap-3 items-center px-10 mb-5">
+      <div  className="w-[95%] m-auto flex flex-wrap gap-3 items-center px-5 mb-5">
         {product.map((products) => (  
            <div key={products._id} className="w-70 flex flex-col flex-wrap mt-5 bg-white items-center rounded h-85  p-3 hover:bg-gray-300">
            <img className="w-50 h-40" src={products.image}></img>
