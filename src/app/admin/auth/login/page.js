@@ -49,9 +49,8 @@ const Login = () => {
                 // router.push("/admin/products");
                 console.log("i am redirecting to products");
                 console.log("i am redirecting to productssssss");
-                router.refresh(); // Refresh the router state
-
-                router.push("/admin/products");
+                // Force full reload to ensure middleware sees new cookie
+                window.location.href = "/admin/products";
                
             } else {
                 setError(res.data.message || "Failed to Register User");
