@@ -48,7 +48,10 @@ const Login = () => {
                 setSuccess("Login successfully! Redirecting... ");
                 // router.push("/admin/products");
                 console.log("i am redirecting to products");
-                router.push("/admin/products");
+                setTimeout(() => {
+
+                  router.push("/admin/products");
+                },700)
             } else {
                 setError(res.data.message || "Failed to Register User");
             }
