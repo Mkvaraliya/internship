@@ -49,7 +49,7 @@ const ProductsPage = () => {
                     <tr>
                         <th className="p-4 text-left">#</th>
                         <th className="p-4 text-left">Title</th>
-                        {/* <th className="p-4 text-left">Image</th> */}
+                        <th className="p-4 text-left">Image</th>
                         <th className="p-4 text-left">Price</th>
                         <th className="p-4 text-left">Stock</th>
                         <th className="p-4 text-left">Description</th>
@@ -65,15 +65,15 @@ const ProductsPage = () => {
                             className={`border-b ${index % 2 === 0 ? "bg-gray-100" : "bg-white"
                                 } hover:bg-gray-200`}
                         >
-                            <td className="p-4">{index}</td>
+                            <td className="p-4">{index + 1}</td>
                             <td className="p-4">{products.title}</td>
-                            {/* <td className="p-4">
+                            <td className="p-4">
                                 <img
-                                    src={product.image}
-                                    alt={product.title}
-                                    className="w-12 h-12 object-cover rounded"
+                                    src={products.image}
+                                    alt={products.title}
+                                    className="w-20 h-20 object-cover rounded"
                                 />
-                            </td> */}
+                            </td>
                             <td className="p-4 font-semibold">Rs {products.price}</td>
                             <td className="p-4">{products.stock}</td>
                             <td className="p-4">{products.description}</td>

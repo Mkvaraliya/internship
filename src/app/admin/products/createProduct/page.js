@@ -9,6 +9,7 @@ const CreateProduct = () => {
   const [price, setPrice] = useState("");
   const [stock, setStock] = useState("");
   const [description, setDescription] = useState("");
+  const [image, setImage] = useState(null); 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const {push} = useRouter();
@@ -26,12 +27,19 @@ const CreateProduct = () => {
       setError("");
       setSuccess("");
 
+      //create FormData and append fields
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("price", price);
+      formData.append("stock", stock);
+      formData.append("description", description);
+      formData.append("image", image);
+
       // Send POST request to your API endpoint
-      const res = await axios.post("/api/products", {
-        title,
-        price,
-        stock,
-        description,
+      const res = await axios.post("/api/products", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
 
 
@@ -42,11 +50,12 @@ const CreateProduct = () => {
         setPrice("");
         setStock("");
         setDescription("");
+        setImage(null);
+        push("/admin/products");
       } else {
         setError(res.data.message || "Failed to create product.");
       }
 
-      push("/admin/products");
     } catch (err) {
       console.error(err);
       setError("An error occurred while creating the product.");
@@ -60,7 +69,7 @@ const CreateProduct = () => {
       {error && <p className="text-red-500 mb-4">{error}</p>}
       {success && <p className="text-green-500 mb-4">{success}</p>}
       
-      <form className="space-y-4" onSubmit={handleSubmit}>
+      <form className="space-y-4" onSubmit={handleSubmit} encType="multipart/form-data">
         {/* Product Name */}
         <div>
           <label className="block text-gray-700 font-medium">Product Name</label>
@@ -106,6 +115,17 @@ const CreateProduct = () => {
             onChange={(e) => setDescription(e.target.value)}
             className="w-full p-2 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           ></textarea>
+        </div>
+
+        {/* File Input For Image */}
+        <div>
+          <label className="block text-gray-700 font-medium">Product Image</label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => setImage(e.target.files[0])}
+            className="w-full p-2 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          ></input>
         </div>
 
         {/* Submit Button */}
