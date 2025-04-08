@@ -1,5 +1,5 @@
-import DbConnection from '@/app/lib/db';
-import Product from '@/app/models/productModel';
+import DbConnection from '@/lib/db';
+import {Product} from '@/app/models/productModel';
 import { NextResponse } from 'next/server';
 import cloudinary from '@/utils/cloudinary';
 

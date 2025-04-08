@@ -11,6 +11,6 @@ const productSchema = new mongoose.Schema({
 });
 
 // ✅ Prevent model overwrite issue in Next.js
-const Product = mongoose.models.Product || mongoose.model("Product", productSchema);
 
-export default Product;
+export const Product = mongoose.models.Product || mongoose.model("Product", productSchema);
+
